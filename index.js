@@ -31,7 +31,10 @@ Toolkit.run(async (tools) => {
     (label) => label.name
   );
 
-  let intersection = allowedLabels.filter((x) => appliedLabels.includes(x));
+  let intersection = allowedLabels.filter(function(x) {
+    const regex = new RegExp("^" + x + "$", 'gi');
+    return appliedLabels.filter((y) => regex.test(y)).length > 0;
+  });
 
   if (mode === "exactly" && intersection.length !== count) {
     tools.exit.failure(
